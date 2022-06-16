@@ -7,15 +7,17 @@ import pandas as pd
 import torchaudio
 import librosa
 import numpy as np
+from Spectrogram import LogSpectrogramExtractor
 
 
 class MusicSoundDataset(Dataset):
 
-    def __init__(self, annotations_file, audio_dir, transformation,
+    def __init__(self, annotations_file, audio_dir, frame_size, hop_length,
                  target_sample_rate, num_samples):
         self.annotations = pd.read_csv(annotations_file)
         self.audio_dir = audio_dir
-        self.transformation = transformation
+        self.frame_size = frame_size
+        self. hop_length = hop_length
         self.target_sample_rate = target_sample_rate
         self.num_samples = num_samples
     
@@ -32,8 +34,8 @@ class MusicSoundDataset(Dataset):
         signal = self._mix_down_if_necessary(signal)
         signal = self._cut_if_necessary(signal)
         signal = self._right_pad_if_necessary(signal)
-        signal = self.transformation(signal)
-        return signal, label
+        log_spectrogram = LogSpectrogramExtractor(self.frame_size, self.hop_length)
+        return log_spectrogram, label
 
     def _cut_if_necessary(self, signal):
         if signal.shape[1] > self.num_samples:
@@ -70,38 +72,27 @@ class MusicSoundDataset(Dataset):
         return self.annotations.iloc[index, 59]
 
 
-def log_spectrogram(self, signal, frame_size, hop_length):
-    stft = librosa.stft(signal,
-                        n_fft=frame_size,
-                        hop_length=hop_length)[:-1]
-    spectrogram = np.abs(stft)
-    log_spectrogram = librosa.amplitude_to_db(spectrogram)
-    return log_spectrogram
+
+
+
+
 
 
 if __name__ == "__main__":
     ANNOTATIONS_FILE = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/Data/features_30_sec.csv"
     AUDIO_DIR = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/Data/genres_original/"
     SAMPLE_RATE = 22050
+    FRAME_SIZE = 512
+    HOP_LENGTH = 256
     NUM_SAMPLES = 22050
 
-    mel_spectrogram = torchaudio.transforms.MelSpectrogram(
-        sample_rate=SAMPLE_RATE,
-        n_fft=1024,
-        hop_length=512,
-        n_mels=64
-    )
 
-    spectrogram = torchaudio.transforms.Spectrogram(
-        
-        n_fft=1024,
-        hop_length=512,
-        )
 
-    md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, spectrogram, SAMPLE_RATE, NUM_SAMPLES)
+    md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
     print(f"There are {len(md)} samples in the dataset.")
     signal, label = md[0]
-    print(spectrogram)
+    print(signal)
+ 
 
 
 

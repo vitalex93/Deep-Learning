@@ -12,13 +12,12 @@ class LogSpectrogramExtractor:
     time-series signal.
     """
 
-    def __init__(self, frame_size, hop_length, signal):
-        self.signal = signal
+    def __init__(self, frame_size, hop_length):
         self.frame_size = frame_size
         self.hop_length = hop_length
 
-    def extract(self):
-        stft = librosa.stft(self.signal,
+    def extract(self, signal):
+        stft = librosa.stft(signal,
                             n_fft=self.frame_size,
                             hop_length=self.hop_length)[:-1]
         spectrogram = np.abs(stft)

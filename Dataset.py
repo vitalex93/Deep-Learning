@@ -34,7 +34,7 @@ class MusicSoundDataset(Dataset):
         signal = self._mix_down_if_necessary(signal)
         signal = self._cut_if_necessary(signal)
         signal = self._right_pad_if_necessary(signal)
-        log_spectrogram = LogSpectrogramExtractor(self.frame_size, self.hop_length)
+        log_spectrogram = LogSpectrogramExtractor(self.frame_size, self.hop_length).extract(signal)
         return log_spectrogram, label
 
     def _cut_if_necessary(self, signal):

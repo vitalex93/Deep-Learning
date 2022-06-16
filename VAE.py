@@ -1,27 +1,36 @@
 from torch import nn
+from Autoencoder import *
 
 #hyperparameter
 latent_size= 2
 
+class VAE(Autoencoder):
+
+    def __init__(self, input_shape, latent_dim = 2):
 
 
-def reparameterise(self, mu, logvar):
-    if self.training:
-            std = logvar.mul(0.5).exp_()
-            eps = std.data.new(std.size()).normal_()
-    return eps.mul(std).add_(mu)
-    else:
-    return mu
+        self.z_mean = torch.nn.Linear(4096, latent_dim)
+        self.z_log_var = torch.nn.Linear(4096, latent_dim)
 
-    def encode(self, x):
-        mu_logvar = self.encoder(x.view(-1, 784)).view(-1, 2, latent_size)
-        mu = mu_logvar[:, 0, :]
-        logvar = mu_logvar[:, 1, :]
-        return mu, logvar
 
-def decode(self, z):
-    return self.decoder(z)
 
-def forward(self, x):
-    mu, logvar = self.encode(x)
-    z = self.reparameterise(mu, logvar)
+
+
+    def encoding_fn(self, x):
+        x = self.encoder(x)
+        z_mean, z_log_var = self.z_mean(x), self.z_log_var(x)
+        encoded = self.reparameterize(z_mean, z_log_var)
+        return encoded
+
+        
+    def reparameterize(self, z_mu, z_log_var):
+        eps = torch.randn(z_mu.size(0), z_mu.size(1)).to(z_mu.get_device())
+        z = z_mu + eps * torch.exp(z_log_var/2.) 
+        return z
+        
+    def forward(self, x):
+        x = self.encoder(x)
+        z_mean, z_log_var = self.z_mean(x), self.z_log_var(x)
+        encoded = self.reparameterize(z_mean, z_log_var)
+        decoded = self.decoder(encoded)
+        return encoded, z_mean, z_log_var, decoded

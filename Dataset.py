@@ -1,9 +1,12 @@
 import os
+from sklearn.cluster import spectral_clustering
 
 import torch
 from torch.utils.data import Dataset
 import pandas as pd
 import torchaudio
+import librosa
+import numpy as np
 
 
 class MusicSoundDataset(Dataset):
@@ -15,6 +18,8 @@ class MusicSoundDataset(Dataset):
         self.transformation = transformation
         self.target_sample_rate = target_sample_rate
         self.num_samples = num_samples
+    
+
 
     def __len__(self):
         return len(self.annotations)
@@ -65,6 +70,15 @@ class MusicSoundDataset(Dataset):
         return self.annotations.iloc[index, 59]
 
 
+def log_spectrogram(self, signal, frame_size, hop_length):
+    stft = librosa.stft(signal,
+                        n_fft=frame_size,
+                        hop_length=hop_length)[:-1]
+    spectrogram = np.abs(stft)
+    log_spectrogram = librosa.amplitude_to_db(spectrogram)
+    return log_spectrogram
+
+
 if __name__ == "__main__":
     ANNOTATIONS_FILE = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/Data/features_30_sec.csv"
     AUDIO_DIR = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/Data/genres_original/"
@@ -77,10 +91,17 @@ if __name__ == "__main__":
         hop_length=512,
         n_mels=64
     )
-    md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, mel_spectrogram,
-                            SAMPLE_RATE, NUM_SAMPLES)
+
+    spectrogram = torchaudio.transforms.Spectrogram(
+        
+        n_fft=1024,
+        hop_length=512,
+        )
+
+    md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, spectrogram, SAMPLE_RATE, NUM_SAMPLES)
     print(f"There are {len(md)} samples in the dataset.")
     signal, label = md[0]
+    print(spectrogram)
 
 
 

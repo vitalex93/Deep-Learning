@@ -8,7 +8,7 @@ HOP_LENGTH = 256
 NUM_SAMPLES = 22050
 
 dataset = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
-first_data = dataset[0]
+first_data = dataset[1]
 spec, labels = first_data 
 
 print(spec)

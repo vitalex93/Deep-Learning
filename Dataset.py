@@ -7,7 +7,7 @@ import pandas as pd
 import torchaudio
 import librosa
 import numpy as np
-from Spectrogram import LogSpectrogramExtractor
+from Spectrogram import LogSpectrogramExtractor, MinMaxNormaliser
 
 
 class MusicSoundDataset(Dataset):
@@ -17,7 +17,7 @@ class MusicSoundDataset(Dataset):
         self.annotations = pd.read_csv(annotations_file)
         self.audio_dir = audio_dir
         self.frame_size = frame_size
-        self. hop_length = hop_length
+        self.hop_length = hop_length
         self.target_sample_rate = target_sample_rate
         self.num_samples = num_samples
     
@@ -34,8 +34,9 @@ class MusicSoundDataset(Dataset):
         signal = self._mix_down_if_necessary(signal)
         signal = self._cut_if_necessary(signal)
         signal = self._right_pad_if_necessary(signal)
-        log_spectrogram = LogSpectrogramExtractor(self.frame_size, self.hop_length).extract(signal)
-        return log_spectrogram, label
+        log_spectrogram = LogSpectrogramExtractor(self.frame_size, self.hop_length).extract(signal[0].numpy())
+        min_max = MinMaxNormaliser(0,1).normalise(log_spectrogram)
+        return min_max, label
 
     def _cut_if_necessary(self, signal):
         if signal.shape[1] > self.num_samples:

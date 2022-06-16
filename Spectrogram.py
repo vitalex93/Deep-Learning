@@ -25,6 +25,9 @@ class LogSpectrogramExtractor:
         return log_spectrogram
 
 
+
+
+
 class MinMaxNormaliser:
     """MinMaxNormaliser applies min max normalisation to an array."""
 

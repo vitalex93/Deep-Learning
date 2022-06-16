@@ -2,12 +2,11 @@ from torch import nn
 
 
 
-class VAE(nn.Module):
-    
+class Autoencoder(nn.Module):
+   
 
-    def __init__(self):
+    def __init__(self, input_shape, latent_dim):
         super().__init__()
-
 
         self.encoder = nn.Sequential( #784
                 nn.Conv2d(1, 32, stride=(1, 1), kernel_size=(3, 3), padding=1),
@@ -17,9 +16,11 @@ class VAE(nn.Module):
                 nn.Conv2d(64, 64, stride=(2, 2), kernel_size=(3, 3), padding=1),
                 nn.LeakyReLU(0.01),
                 nn.Conv2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
-                nn.Flatten(),
-                nn.Linear(3136, 2)
-        )
+                nn.Flatten()
+                )
+
+        self.final_linear = nn.Linear(3136, 2)
+
         self.decoder = nn.Sequential(
             torch.nn.Linear(2, 3136),
             Reshape(-1, 64, 7, 7),
@@ -36,5 +37,6 @@ class VAE(nn.Module):
 
     def forward(self, x):
         x = self.encoder(x)
+        self.final_linear = nn.Linear(3136, 2)
         x = self.decoder(x)
         return x

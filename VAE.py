@@ -17,8 +17,8 @@ class VAE(Autoencoder):
 
 
 
-    def encoding_fn(self):
-        x = self.encoder(self.input)
+    def encoding_fn(self, x):
+        x = self.encoder(x)
         z_mean, z_log_var = self.z_mean(x), self.z_log_var(x)
         encoded = self.reparameterize(z_mean, z_log_var)
         return encoded
@@ -29,8 +29,8 @@ class VAE(Autoencoder):
         z = z_mu + eps * torch.exp(z_log_var/2.) 
         return z
         
-    def forward(self):
-        x = self.encoder(self.input)
+    def forward(self,x ):
+        x = self.encoder(x)
         z_mean, z_log_var = self.z_mean(x), self.z_log_var(x)
         encoded = self.reparameterize(z_mean, z_log_var)
         decoded = self.decoder(encoded)

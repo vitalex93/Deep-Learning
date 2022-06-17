@@ -1,10 +1,11 @@
 from Dataset import *
-from VAE import *
+from Autoencoder import Autoencoder
+from VAE import VAE
 from torch import nn
 from torch.utils.data import DataLoader
 
 BATCH_SIZE = 128
-EPOCHS = 10
+EPOCHS = 2
 LEARNING_RATE = 0.001
 
 ANNOTATIONS_FILE = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/Data/features_30_sec.csv"
@@ -55,7 +56,8 @@ if __name__ == "__main__":
     train_dataloader = create_data_loader(md, BATCH_SIZE)
 
     # construct model and assign it to device
-    autoencoder = VAE().to(device)
+    
+    autoencoder = Autoencoder().to(device)
     print(autoencoder)
 
     # initialise loss funtion + optimiser
@@ -64,7 +66,7 @@ if __name__ == "__main__":
                                  lr=LEARNING_RATE)
 
     # train model
-    train(autoencoder, train_dataloader, loss_fn, optimiser, device, EPOCHS)
+    train(autoencoder, train_dataloader, loss_fn, optimiser, EPOCHS, device)
 
     # save model
     torch.save(autoencoder.state_dict(), "feedforwardnet.pth")

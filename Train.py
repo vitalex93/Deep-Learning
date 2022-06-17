@@ -26,8 +26,8 @@ def train_single_epoch(model, data_loader, loss_fn, optimiser, device = 'cpu'):
         input, target = input.to(device), target.to(device)
 
         # calculate loss
-        prediction = model(input)
-        loss = loss_fn(prediction, target)
+        output = model(input)
+        loss = loss_fn(output, input)
 
         # backpropagate error and update weights
         optimiser.zero_grad()
@@ -69,5 +69,5 @@ if __name__ == "__main__":
     train(autoencoder, train_dataloader, loss_fn, optimiser, EPOCHS, device)
 
     # save model
-    torch.save(autoencoder.state_dict(), "feedforwardnet.pth")
-    print("Trained autoencoder saved at feedforwardnet.pth")
+    #torch.save(autoencoder.state_dict(), "feedforwardnet.pth")
+    #print("Trained autoencoder saved at feedforwardnet.pth")

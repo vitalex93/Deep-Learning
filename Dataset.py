@@ -36,7 +36,8 @@ class MusicSoundDataset(Dataset):
         signal = self._right_pad_if_necessary(signal)
         log_spectrogram = LogSpectrogramExtractor(self.frame_size, self.hop_length).extract(signal[0].numpy())
         min_max = MinMaxNormaliser(0,1).normalise(log_spectrogram)
-        return min_max, label
+        spectrogram = min_max[:,:,np.newaxis]
+        return spectrogram, label
 
     def _cut_if_necessary(self, signal):
         if signal.shape[1] > self.num_samples:
@@ -92,7 +93,7 @@ if __name__ == "__main__":
     md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
     print(f"There are {len(md)} samples in the dataset.")
     spec, label = md[0]
-    print(len(spec))
+    print(spec)
  
 
 

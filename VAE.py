@@ -1,4 +1,5 @@
-from torch import nn
+import torch
+#from torch import 
 from Autoencoder import *
 
 #hyperparameter
@@ -6,7 +7,7 @@ latent_size= 2
 
 class VAE(Autoencoder):
 
-    def __init__(self, input_shape, latent_dim = 2):
+    def __init__(self, latent_dim = 2):
 
 
         self.z_mean = torch.nn.Linear(4096, latent_dim)
@@ -16,8 +17,8 @@ class VAE(Autoencoder):
 
 
 
-    def encoding_fn(self, x):
-        x = self.encoder(x)
+    def encoding_fn(self):
+        x = self.encoder(self.input)
         z_mean, z_log_var = self.z_mean(x), self.z_log_var(x)
         encoded = self.reparameterize(z_mean, z_log_var)
         return encoded
@@ -28,8 +29,8 @@ class VAE(Autoencoder):
         z = z_mu + eps * torch.exp(z_log_var/2.) 
         return z
         
-    def forward(self, x):
-        x = self.encoder(x)
+    def forward(self):
+        x = self.encoder(self.input)
         z_mean, z_log_var = self.z_mean(x), self.z_log_var(x)
         encoded = self.reparameterize(z_mean, z_log_var)
         decoded = self.decoder(encoded)

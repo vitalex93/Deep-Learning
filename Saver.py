@@ -28,3 +28,17 @@ class Saver:
         file_name = os.path.split(file_path)[1]
         save_path = os.path.join(self.feature_save_dir, file_name + ".npy")
         return save_path
+
+
+
+
+
+
+
+
+
+
+
+
+
+

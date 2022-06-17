@@ -1,3 +1,4 @@
+
 from Dataset import *
 from Autoencoder import Autoencoder
 from VAE import VAE
@@ -37,6 +38,7 @@ def train_single_epoch(model, data_loader, loss_fn, optimiser, device = 'cpu'):
     print(f"loss: {loss.item()}")
 
 
+
 def train(model, data_loader, loss_fn, optimiser, epochs, device = 'cpu' ):
     for i in range(epochs):
         print(f"Epoch {i+1}")
@@ -54,6 +56,8 @@ if __name__ == "__main__":
    
     md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
     train_dataloader = create_data_loader(md, BATCH_SIZE)
+    
+    print(train_dataloader)
 
     # construct model and assign it to device
     

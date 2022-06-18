@@ -31,3 +31,4 @@ for input, _ in train_dataloader:
     #print(input.size())
         # calculate loss
     output = model(input)
+    print(output.size())

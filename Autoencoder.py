@@ -18,7 +18,7 @@ class Trim(nn.Module):
         super().__init__()
 
     def forward(self, x):
-        return x[:, :, :128, :128]
+        return x[:, :, :256, :87]
 
 
 class Autoencoder(nn.Module):
@@ -49,6 +49,7 @@ class Autoencoder(nn.Module):
                 #dim1 = [(65 + 2*1 - 3)/1] + 1 = 65  
                 #dim2 = [(23 + 2*1 - 3)/1] + 1 = 23   
                 # output volume = 65*23 = 1495 
+                
                 nn.Flatten(),
                 nn.Linear(90112, 2)
                 )
@@ -61,11 +62,19 @@ class Autoencoder(nn.Module):
             Reshape(-1, 64, 64, 22),
             nn.ConvTranspose2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
             nn.LeakyReLU(0.01),
-            nn.ConvTranspose2d(64, 64, stride=(2, 2), kernel_size=(3, 3), padding=1),                
+            #dim1 = 64
+            #dim2 = 22
+            nn.ConvTranspose2d(64, 64, stride=(2, 2), kernel_size=(3, 3), padding=0),                
             nn.LeakyReLU(0.01),
-            nn.ConvTranspose2d(64, 32, stride=(2, 2), kernel_size=(3, 3), padding=1),                
+            #dim1 = 127 
+            #dim2 = 43
+            nn.ConvTranspose2d(64, 32, stride=(2, 2), kernel_size=(3, 3), padding=0),                
             nn.LeakyReLU(0.01),
+            #dim1 = 255
+            #dim2 = 87
             nn.ConvTranspose2d(32, 1, stride=(1, 1), kernel_size=(3, 3), padding=1), 
+            #dim1 = 255
+            #dim1 = 87
             #Trim(),  # 1x29x29 -> 1x28x28
             nn.Sigmoid()
             )

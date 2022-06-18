@@ -52,12 +52,13 @@ class Autoencoder(nn.Module):
                 nn.Flatten(),
                 nn.Linear(90112, 2)
                 )
+                #64*22*64 = 90112
 
         #self.final_linear = nn.Linear(3136, 2)
 
         self.decoder = nn.Sequential(
             torch.nn.Linear(2, 90112),
-            #Reshape(-1, 64, 7, 7),
+            Reshape(-1, 64, 64, 22),
             nn.ConvTranspose2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
             nn.LeakyReLU(0.01),
             nn.ConvTranspose2d(64, 64, stride=(2, 2), kernel_size=(3, 3), padding=1),                

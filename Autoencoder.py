@@ -73,9 +73,9 @@ class Autoencoder(nn.Module):
             #dim1 = 255
             #dim2 = 87
             nn.ConvTranspose2d(32, 1, stride=(1, 1), kernel_size=(3, 3), padding=1), 
-            #dim1 = 255
-            #dim1 = 87
-            #Trim(),  # 1x29x29 -> 1x28x28
+            #dim1 = 257
+            #dim1 = 89
+            #Trim(),  # 1x257x89 -> 1x256x287
             nn.Sigmoid()
             )
 

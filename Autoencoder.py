@@ -36,10 +36,11 @@ class Autoencoder(nn.Module):
                 nn.Conv2d(64, 64, stride=(2, 2), kernel_size=(3, 3), padding=1),
                 nn.LeakyReLU(0.01),
                 nn.Conv2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
-                nn.Flatten()
+                nn.Flatten(),
+                final_linear = nn.Linear(3136, 2)
                 )
 
-        self.final_linear = nn.Linear(3136, 2)
+        #self.final_linear = nn.Linear(3136, 2)
 
         self.decoder = nn.Sequential(
             torch.nn.Linear(2, 3136),
@@ -57,6 +58,11 @@ class Autoencoder(nn.Module):
 
     def forward(self, x):
         x = self.encoder(x)
-        self.final_linear = nn.Linear(3136, 2)
+        #self.final_linear = nn.Linear(3136, 2)
         x = self.decoder(x)
         return x
+
+    def reconstruct(self, images):
+        latent_representations = self.encoder(images)
+        reconstructed_images = self.decoder(latent_representations)
+        return reconstructed_images, latent_representations

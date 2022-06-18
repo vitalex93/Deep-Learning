@@ -28,8 +28,8 @@ class Autoencoder(nn.Module):
         super().__init__()
 
         
-        self.encoder = nn.Sequential( #784
-                #input volume = 28*28*1
+        self.encoder = nn.Sequential( 
+                #input volume = 28*28*1 = 784
                 nn.Conv2d(1, 32, stride=(1, 1), kernel_size=(3, 3), padding=1),
                 nn.LeakyReLU(0.01),
                 #output volume = [(28 + 2*1 - 3)/1] + 1 = 28  (28*28*32 = 25088)
@@ -42,13 +42,13 @@ class Autoencoder(nn.Module):
                 nn.Conv2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
                 #output volume = [(8 + 2*1 - 3)/1] + 1 = 8 (8*8*64 = 4096)
                 nn.Flatten(),
-                nn.Linear(3136, 2)
+                nn.Linear(4096, 2)
                 )
 
         #self.final_linear = nn.Linear(3136, 2)
 
         self.decoder = nn.Sequential(
-            torch.nn.Linear(2, 3136),
+            torch.nn.Linear(2, 4096),
             Reshape(-1, 64, 7, 7),
             nn.ConvTranspose2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
             nn.LeakyReLU(0.01),

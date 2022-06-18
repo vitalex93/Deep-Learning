@@ -67,7 +67,7 @@ class Autoencoder(nn.Module):
             nn.LeakyReLU(0.01),
             nn.ConvTranspose2d(32, 1, stride=(1, 1), kernel_size=(3, 3), padding=1), 
             #Trim(),  # 1x29x29 -> 1x28x28
-            nn.Softmax(dim=1)
+            nn.Sigmoid(dim)
             )
 
     def forward(self, x):

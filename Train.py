@@ -6,11 +6,11 @@ from torch import nn
 from torch.utils.data import DataLoader
 
 BATCH_SIZE = 128
-EPOCHS = 2
+EPOCHS = 1
 LEARNING_RATE = 0.001
 
-ANNOTATIONS_FILE = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/Data/features_30_sec.csv"
-AUDIO_DIR = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/Data/genres_original/"
+ANNOTATIONS_FILE = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/data/features_30_sec.csv"
+AUDIO_DIR = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/data/genres_original/"
 SAMPLE_RATE = 22050
 FRAME_SIZE = 512
 HOP_LENGTH = 256
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
     train_dataloader = create_data_loader(md, BATCH_SIZE)
     
-    print(train_dataloader)
+    
 
     # construct model and assign it to device
     

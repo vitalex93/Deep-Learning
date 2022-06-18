@@ -29,6 +29,7 @@ class MusicSoundDataset(Dataset):
     def __getitem__(self, index):
         audio_sample_path = self._get_audio_sample_path(index)
         label = self._get_audio_sample_label(index)
+        label = torch.tensor([1])
         signal, sr = torchaudio.load(audio_sample_path)
         signal = self._resample_if_necessary(signal, sr)
         signal = self._mix_down_if_necessary(signal)
@@ -37,7 +38,8 @@ class MusicSoundDataset(Dataset):
         log_spectrogram = LogSpectrogramExtractor(self.frame_size, self.hop_length).extract(signal[0].numpy())
         min_max = MinMaxNormaliser(0,1).normalise(log_spectrogram)
         spectrogram = min_max[np.newaxis,:,:]
-        return spectrogram, label
+        tensor = torch.from_numpy(spectrogram)
+        return tensor, label
 
     def _cut_if_necessary(self, signal):
         if signal.shape[1] > self.num_samples:
@@ -81,8 +83,8 @@ class MusicSoundDataset(Dataset):
 
 
 if __name__ == "__main__":
-    ANNOTATIONS_FILE = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/Data/features_30_sec.csv"
-    AUDIO_DIR = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/Data/genres_original/"
+    ANNOTATIONS_FILE = "./data/features_30_sec.csv"
+    AUDIO_DIR = "./data/genres_original/"
     SAMPLE_RATE = 22050
     FRAME_SIZE = 512
     HOP_LENGTH = 256
@@ -93,8 +95,9 @@ if __name__ == "__main__":
     md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
     print(f"There are {len(md)} samples in the dataset.")
     spec, label = md[0]
-    print(spec.shape)
-    print(md[0])
+    #print(spec.size())
+    #print(md[0])
+    print(label.size())
  
 
 

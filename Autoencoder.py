@@ -57,7 +57,7 @@ class Autoencoder(nn.Module):
 
         self.decoder = nn.Sequential(
             torch.nn.Linear(2, 90112),
-            Reshape(-1, 64, 7, 7),
+            #Reshape(-1, 64, 7, 7),
             nn.ConvTranspose2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
             nn.LeakyReLU(0.01),
             nn.ConvTranspose2d(64, 64, stride=(2, 2), kernel_size=(3, 3), padding=1),                
@@ -65,7 +65,7 @@ class Autoencoder(nn.Module):
             nn.ConvTranspose2d(64, 32, stride=(2, 2), kernel_size=(3, 3), padding=1),                
             nn.LeakyReLU(0.01),
             nn.ConvTranspose2d(32, 1, stride=(1, 1), kernel_size=(3, 3), padding=1), 
-            Trim(),  # 1x29x29 -> 1x28x28
+            #Trim(),  # 1x29x29 -> 1x28x28
             nn.Softmax(dim=1)
             )
 

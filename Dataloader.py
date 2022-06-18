@@ -28,7 +28,7 @@ train_dataloader = create_data_loader(md, BATCH_SIZE)
 model = Autoencoder()
 for input, _ in train_dataloader:
     input = input.to('cpu')
-    #print(input.size())
+    print(input.size())
         # calculate loss
     output = model(input)
-    print(output.size())
+    #print(output.size())

@@ -49,14 +49,14 @@ class Autoencoder(nn.Module):
                 #dim1 = [(65 + 2*1 - 3)/1] + 1 = 65  
                 #dim2 = [(23 + 2*1 - 3)/1] + 1 = 23   
                 # output volume = 65*23 = 1495 
-                #nn.Flatten(),
-                nn.Linear(1495, 2)
+                nn.Flatten(),
+                nn.Linear(95680, 2)
                 )
 
         #self.final_linear = nn.Linear(3136, 2)
 
         self.decoder = nn.Sequential(
-            torch.nn.Linear(2, 1495),
+            torch.nn.Linear(2, 95680),
             Reshape(-1, 64, 7, 7),
             nn.ConvTranspose2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
             nn.LeakyReLU(0.01),

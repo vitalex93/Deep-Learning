@@ -9,8 +9,8 @@ BATCH_SIZE = 128
 EPOCHS = 1
 LEARNING_RATE = 0.001
 
-ANNOTATIONS_FILE = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/data/features_30_sec.csv"
-AUDIO_DIR = "/home/vitalex93/Desktop/Data_Science/Deep_Learning/DLproject/data/genres_original/"
+ANNOTATIONS_FILE = "./data/features_30_sec.csv"
+AUDIO_DIR = "./data/genres_original/"
 SAMPLE_RATE = 22050
 FRAME_SIZE = 512
 HOP_LENGTH = 256

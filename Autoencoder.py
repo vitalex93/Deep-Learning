@@ -49,7 +49,7 @@ class Autoencoder(nn.Module):
                 #dim1 = [(65 + 2*1 - 3)/1] + 1 = 65  
                 #dim2 = [(23 + 2*1 - 3)/1] + 1 = 23   
                 # output volume = 65*23 = 1495 
-                nn.Flatten(),
+                #nn.Flatten(),
                 nn.Linear(1495, 2)
                 )
 

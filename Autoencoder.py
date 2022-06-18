@@ -37,7 +37,7 @@ class Autoencoder(nn.Module):
                 nn.LeakyReLU(0.01),
                 nn.Conv2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
                 nn.Flatten(),
-                final_linear = nn.Linear(3136, 2)
+                nn.Linear(3136, 2)
                 )
 
         #self.final_linear = nn.Linear(3136, 2)

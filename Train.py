@@ -23,8 +23,8 @@ def create_data_loader(train_data, batch_size):
 
 
 def train_single_epoch(model, data_loader, loss_fn, optimiser, device = 'cpu'):
-    for input, target in data_loader:
-        input, target = input.to(device), target.to(device)
+    for input, _ in data_loader:
+        input = input.to(device)
 
         # calculate loss
         output = model(input)

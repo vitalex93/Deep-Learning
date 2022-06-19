@@ -52,11 +52,11 @@ class Autoencoder(nn.Module):
                 # output volume = 65*23 = 1408 
                 
                 nn.Flatten(),
-                nn.Linear(90112, self.latent_dim)
+                #nn.Linear(90112, self.latent_dim)
                 )
                 #64*22*64 = 90112
 
-        #self.final_linear = nn.Linear(90112, 2)
+        self.final_linear = nn.Linear(90112, 2)
 
         self.decoder = nn.Sequential(
             torch.nn.Linear(self.latent_dim, 90112),
@@ -82,7 +82,7 @@ class Autoencoder(nn.Module):
 
     def forward(self, x):
         x = self.encoder(x)
-        #self.final_linear = nn.Linear(3136, 2)
+        x = self.final_linear = nn.Linear(90112, 2)(x)
         x = self.decoder(x)
         return x
 

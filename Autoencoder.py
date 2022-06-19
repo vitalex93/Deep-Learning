@@ -56,7 +56,7 @@ class Autoencoder(nn.Module):
                 )
                 #64*22*64 = 90112
 
-        self.final_linear = nn.Linear(90112, 2)
+        self.final_linear = nn.Linear(90112, self.latent_dim)
 
         self.decoder = nn.Sequential(
             torch.nn.Linear(self.latent_dim, 90112),

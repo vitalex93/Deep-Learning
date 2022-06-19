@@ -37,25 +37,25 @@ class Autoencoder(nn.Module):
                 # output volume = 256*87 = 22272 
                 nn.Conv2d(32, 64, stride=(2, 2), kernel_size=(3, 3), padding=1),
                 nn.LeakyReLU(0.01),
-                #dim1 = [(256 + 2*1 - 3)/2] + 1 = 129  
+                #dim1 = [(256 + 2*1 - 3)/2] + 1 = 128  
                 #dim2 = [(87 + 2*1 - 3)/2] + 1 = 44   
-                # output volume = 129*44 = 5676 
+                # output volume = 129*44 = 5632 
                 nn.Conv2d(64, 64, stride=(2, 2), kernel_size=(3, 3), padding=1),
                 nn.LeakyReLU(0.01),
-                #dim1 = [(129 + 2*1 - 3)/2] + 1 = 65  
-                #dim2 = [(44 + 2*1 - 3)/2] + 1 = 23   
-                # output volume = 65*23 = 1495 
+                #dim1 = [(128 + 2*1 - 3)/2] + 1 = 64  
+                #dim2 = [(44 + 2*1 - 3)/2] + 1 = 22   
+                # output volume = 65*23 = 1408
                 nn.Conv2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
-                #dim1 = [(65 + 2*1 - 3)/1] + 1 = 65  
-                #dim2 = [(23 + 2*1 - 3)/1] + 1 = 23   
-                # output volume = 65*23 = 1495 
+                #dim1 = [(65 + 2*1 - 3)/1] + 1 = 64  
+                #dim2 = [(23 + 2*1 - 3)/1] + 1 = 22   
+                # output volume = 65*23 = 1408 
                 
                 nn.Flatten(),
                 nn.Linear(90112, 2)
                 )
                 #64*22*64 = 90112
 
-        #self.final_linear = nn.Linear(3136, 2)
+        #self.final_linear = nn.Linear(90112, 2)
 
         self.decoder = nn.Sequential(
             torch.nn.Linear(2, 90112),

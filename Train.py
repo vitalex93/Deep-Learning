@@ -4,8 +4,9 @@ from Autoencoder import Autoencoder
 from VAE import VAE
 from torch import nn
 from torch.utils.data import DataLoader
+import torch.nn.functional as F
 
-BATCH_SIZE = 128
+BATCH_SIZE = 16
 EPOCHS = 1
 LEARNING_RATE = 0.001
 
@@ -29,6 +30,7 @@ def train_single_epoch(model, data_loader, loss_fn, optimiser, device = 'cpu'):
         # calculate loss
         output = model(input)
         loss = loss_fn(output, input)
+        
 
         # backpropagate error and update weights
         optimiser.zero_grad()
@@ -65,7 +67,7 @@ if __name__ == "__main__":
     print(autoencoder)
 
     # initialise loss funtion + optimiser
-    loss_fn = nn.CrossEntropyLoss()
+    loss_fn = F.mse_loss
     optimiser = torch.optim.Adam(autoencoder.parameters(),
                                  lr=LEARNING_RATE)
 

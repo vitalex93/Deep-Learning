@@ -31,6 +31,7 @@ def train_single_epoch(model, data_loader, loss_fn, optimiser, reconstruction_te
 
 
         encoded, z_mean, z_log_var, decoded = model(input)
+        
         # calculate loss
         # total loss = reconstruction loss + KL divergence
         #kl_divergence = (0.5 * (z_mean**2 + 

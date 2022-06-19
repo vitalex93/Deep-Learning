@@ -6,8 +6,8 @@ from torch import nn
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
-BATCH_SIZE = 16
-EPOCHS = 1
+BATCH_SIZE = 32
+EPOCHS = 20
 LEARNING_RATE = 0.001
 
 ANNOTATIONS_FILE = "./data/features_30_sec.csv"
@@ -98,5 +98,5 @@ if __name__ == "__main__":
     train(autoencoder, train_dataloader, loss_fn, optimiser, EPOCHS, device)
 
     # save model
-    #torch.save(autoencoder.state_dict(), "feedforwardnet.pth")
-    #print("Trained autoencoder saved at feedforwardnet.pth")
+    torch.save(autoencoder.state_dict(), "feedforwardnet.pth")
+    print("Trained autoencoder saved at feedforwardnet.pth")

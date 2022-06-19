@@ -25,7 +25,7 @@ class VAE(Autoencoder):
 
         
     def reparameterize(self, z_mu, z_log_var):
-        eps = torch.randn(z_mu.size(0), z_mu.size(1)).to(z_mu.get_device())
+        eps = torch.randn(z_mu.size(0), z_mu.size(1)).to('cpu')
         z = z_mu + eps * torch.exp(z_log_var/2.) 
         return z
         

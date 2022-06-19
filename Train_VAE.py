@@ -48,8 +48,8 @@ def train_single_epoch(model, data_loader, loss_fn, optimiser, reconstruction_te
         pixelwise = pixelwise.view(batchsize, -1).sum(axis=1) # sum over pixels
         pixelwise = pixelwise.mean() # average over batch dimension
         
-        loss = reconstruction_term_weight*pixelwise + kl_div
-
+        #loss = reconstruction_term_weight*pixelwise + kl_div
+        loss = pixelwise + kl_div
 
         #output = model(input)
         #loss = loss_fn(output, input)

@@ -7,11 +7,11 @@ latent_size= 2
 
 class VAE(Autoencoder):
 
-    def __init__(self, latent_dim = 2):
+    def __init__(self):
 
-
-        self.z_mean = torch.nn.Linear(4096, latent_dim)
-        self.z_log_var = torch.nn.Linear(4096, latent_dim)
+        super().__init__()
+        self.z_mean = torch.nn.Linear(90112, self.latent_dim)
+        self.z_log_var = torch.nn.Linear(90112, self.latent_dim)
 
 
 
@@ -29,7 +29,7 @@ class VAE(Autoencoder):
         z = z_mu + eps * torch.exp(z_log_var/2.) 
         return z
         
-    def forward(self,x ):
+    def forward(self, x):
         x = self.encoder(x)
         z_mean, z_log_var = self.z_mean(x), self.z_log_var(x)
         encoded = self.reparameterize(z_mean, z_log_var)

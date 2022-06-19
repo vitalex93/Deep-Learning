@@ -1,6 +1,7 @@
 
 import torch
 from torch import nn
+#from torchsummary import summary
 
 
 
@@ -24,10 +25,10 @@ class Trim(nn.Module):
 class Autoencoder(nn.Module):
    
 
-    def __init__(self):
+    def __init__(self, latent_dim = 2):
         super().__init__()
 
-        
+        self.latent_dim = latent_dim 
         self.encoder = nn.Sequential( 
                 #input volume = 256*87*1 = 22272
                 nn.Conv2d(1, 32, stride=(1, 1), kernel_size=(3, 3), padding=1),
@@ -51,14 +52,14 @@ class Autoencoder(nn.Module):
                 # output volume = 65*23 = 1408 
                 
                 nn.Flatten(),
-                nn.Linear(90112, 2)
+                nn.Linear(90112, self.latent_dim)
                 )
                 #64*22*64 = 90112
 
         #self.final_linear = nn.Linear(90112, 2)
 
         self.decoder = nn.Sequential(
-            torch.nn.Linear(2, 90112),
+            torch.nn.Linear(self.latent_dim, 90112),
             Reshape(-1, 64, 64, 22),
             nn.ConvTranspose2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
             nn.LeakyReLU(0.01),

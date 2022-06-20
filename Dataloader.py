@@ -25,10 +25,3 @@ md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMP
 train_dataloader = create_data_loader(md, BATCH_SIZE)
 
 
-model = Autoencoder()
-for input, _ in train_dataloader:
-    input = input.to('cpu')
-    print(input.size())
-        # calculate loss
-    output = model(input)
-    #print(output.size())

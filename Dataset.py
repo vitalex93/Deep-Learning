@@ -36,10 +36,11 @@ class MusicSoundDataset(Dataset):
         signal = self._cut_if_necessary(signal)
         signal = self._right_pad_if_necessary(signal)
         log_spectrogram = LogSpectrogramExtractor(self.frame_size, self.hop_length).extract(signal[0].numpy())
+        max, min = np.amax(log_spectrogram), np.amin(log_spectrogram)
         min_max = MinMaxNormaliser(0,1).normalise(log_spectrogram)
         spectrogram = min_max[np.newaxis,:,:]
         tensor = torch.from_numpy(spectrogram)
-        return tensor, label
+        return tensor, label, max, min
 
     def _cut_if_necessary(self, signal):
         if signal.shape[1] > self.num_samples:
@@ -94,10 +95,21 @@ if __name__ == "__main__":
 
     md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
     print(f"There are {len(md)} samples in the dataset.")
-    spec, label = md[10]
+    spec, label, max, min = md[800]
     #print(spec.size())
     #print(md[0])
-    print(spec.size())
+
+    M = []
+    N = []
+    for i in range(len(md)):
+        spec, label, max, min = md[i]
+        
+        M.append(max)
+        N.append(min)
+    max_mean = sum(M)/len(M)
+    min_mean = sum(N)/len(N)
+
+    print(max_mean, min_mean)
  
 
 

@@ -29,7 +29,7 @@ for input, _, _, _ in train_dataloader:
 
 #print(L[0].tolist()[1])
 with torch.no_grad():
-    new_image = model.decoder(torch.tensor(L[0].tolist()[1]).to('cpu'))
+    new_image = model.decoder(torch.tensor(L[2].tolist()[1]).to('cpu'))
     
 
     new_image.squeeze_(0)
@@ -51,7 +51,7 @@ print(signal.shape)
 
 save_dir = './data/sampling/'
 sample_rate = 22050
-save_path = os.path.join(save_dir + "test.wav")
+save_path = os.path.join(save_dir + "test2.wav")
 sf.write(save_path, signal, sample_rate)
 
 

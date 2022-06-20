@@ -6,8 +6,8 @@ from torch import nn
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
-BATCH_SIZE = 32
-EPOCHS = 20
+BATCH_SIZE = 8
+EPOCHS = 1
 LEARNING_RATE = 0.001
 
 ANNOTATIONS_FILE = "./data/features_30_sec.csv"
@@ -25,7 +25,7 @@ def create_data_loader(train_data, batch_size):
 
 
 def train_single_epoch(model, data_loader, loss_fn, optimiser, reconstruction_term_weight = 1, device = 'cpu'):
-    for input, _ in data_loader:
+    for input, _ , _, _ in data_loader:
         input = input.to(device)
 
 

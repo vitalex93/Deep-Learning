@@ -1,3 +1,5 @@
+
+
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
@@ -13,19 +15,19 @@ HOP_LENGTH = 256
 
 with torch.no_grad():
     new_image = model.decoder(torch.tensor([-0.0, 0.03]).to('cpu'))
-    print(new_image.size())
+
     new_image.squeeze_(0)
     new_image.squeeze_(0)
+    #print(new_image.size())
 plt.imshow(new_image.to('cpu').numpy(), cmap='binary')
 plt.show()
 
-
-log_spectrogram = new_image[:, :, 0]
+log_spectrogram = new_image.numpy()
+print(log_spectrogram.shape)
 spec = librosa.db_to_amplitude(log_spectrogram)
-min_max = MinMaxNormaliser(0,1).denormalise(log_spectrogram)
+min_max = MinMaxNormaliser(0,1).denormalise(log_spectrogram, -49, 30)
 signal = librosa.istft(min_max, hop_length=HOP_LENGTH)
 
-print(signal)
 
 
 

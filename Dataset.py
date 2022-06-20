@@ -106,10 +106,18 @@ if __name__ == "__main__":
         
         M.append(max)
         N.append(min)
+    
+    M.sort()
+    N.sort()
+
+    median_max = M[int(len(M)/2 - 0.5)]
+    median_min = N[int(len(N)/2 - 0.5)]
+
     max_mean = sum(M)/len(M)
     min_mean = sum(N)/len(N)
 
     print(max_mean, min_mean)
+    print(median_max, median_min)
  
 
 

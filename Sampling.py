@@ -51,7 +51,7 @@ print(signal.shape)
 
 save_dir = './data/sampling/'
 sample_rate = 22050
-save_path = os.path.join(save_dir + "test2.wav")
+save_path = os.path.join(save_dir + "test.wav")
 sf.write(save_path, signal, sample_rate)
 
 

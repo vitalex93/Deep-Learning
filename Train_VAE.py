@@ -3,24 +3,10 @@ from Dataset import *
 from Autoencoder import Autoencoder
 from VAE import VAE
 from torch import nn
-from torch.utils.data import DataLoader
+from Dataloader import *
 import torch.nn.functional as F
 
-BATCH_SIZE = 8
-EPOCHS = 1
-LEARNING_RATE = 0.001
 
-ANNOTATIONS_FILE = "./data/features_30_sec.csv"
-AUDIO_DIR = "./data/genres_original/"
-SAMPLE_RATE = 22050
-FRAME_SIZE = 512
-HOP_LENGTH = 256
-NUM_SAMPLES = 220500
-INPUT_SHAPE = 256
-
-def create_data_loader(train_data, batch_size):
-    train_dataloader = DataLoader(train_data, batch_size=batch_size)
-    return train_dataloader
 
 
 
@@ -86,7 +72,7 @@ if __name__ == "__main__":
 
     # construct model and assign it to device
     
-    autoencoder = VAE().to(device)
+    autoencoder = VAE(latent_dim = LATENT_DIM, dim1 = DIM_1, dim2 = DIM_2).to(device)
     print(autoencoder)
 
     # initialise loss funtion + optimiser

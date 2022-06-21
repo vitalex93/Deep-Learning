@@ -5,9 +5,9 @@ from Autoencoder import *
 
 class VAE(Autoencoder):
 
-    def __init__(self):
+    def __init__(self, latent_dim = 50, dim1 = 256, dim2 = 862):
 
-        super().__init__()
+        super().__init__(latent_dim = latent_dim, dim1 = dim1, dim2 = dim2)
         self.z_mean = torch.nn.Linear(self.dim1*self.dim2*64, self.latent_dim)
         self.z_log_var = torch.nn.Linear(self.dim1*self.dim2*64, self.latent_dim)
 

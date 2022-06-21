@@ -15,11 +15,13 @@ class Reshape(nn.Module):
 
 
 class Trim(nn.Module):
-    def __init__(self, *args):
+    def __init__(self, dim1 = 256, dim2 = 862):
         super().__init__()
+        self.dim1 = dim1
+        self.dim2 = dim2
 
-    def forward(self, x, dim1, dim2):
-        return x[:, :, :dim1, :dim2]
+    def forward(self, x):
+        return x[:, :, :self.dim1, :self.dim2]
 
 
 class Autoencoder(nn.Module):

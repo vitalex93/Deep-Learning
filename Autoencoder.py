@@ -19,70 +19,72 @@ class Trim(nn.Module):
         super().__init__()
 
     def forward(self, x):
-        return x[:, :, :256, :87]
+        return x[:, :, :256, :862]
 
 
 class Autoencoder(nn.Module):
    
 
-    def __init__(self, latent_dim = 50):
+    def __init__(self, latent_dim = 50, dim1 = 256, dim2 = 862):
         super().__init__()
 
         self.latent_dim = latent_dim 
+        self.dim1 = dim1
+        self.dim2 = dim2
         self.encoder = nn.Sequential( 
-                #input volume = 256*87*1 = 22272
+                #input volume = 256*862*1 = 220672
                 nn.Conv2d(1, 32, stride=(1, 1), kernel_size=(3, 3), padding=1),
                 nn.LeakyReLU(0.01),
                 #dim1 = [(256 + 2*1 - 3)/1] + 1 = 256  
-                #dim2 = [(87 + 2*1 - 3)/1] + 1 = 87   
+                #dim2 = [(862 + 2*1 - 3)/1] + 1 = 862   
                 # output volume = 256*87 = 22272 
                 nn.Conv2d(32, 64, stride=(2, 2), kernel_size=(3, 3), padding=1),
                 nn.LeakyReLU(0.01),
                 #dim1 = [(256 + 2*1 - 3)/2] + 1 = 128  
-                #dim2 = [(87 + 2*1 - 3)/2] + 1 = 44   
-                # output volume = 129*44 = 5632 
+                #dim2 = [(862 + 2*1 - 3)/2] + 1 = 431   
+                # output volume = 128*431 = 55168
                 nn.Conv2d(64, 64, stride=(2, 2), kernel_size=(3, 3), padding=1),
                 nn.LeakyReLU(0.01),
                 #dim1 = [(128 + 2*1 - 3)/2] + 1 = 64  
-                #dim2 = [(44 + 2*1 - 3)/2] + 1 = 22   
-                # output volume = 65*23 = 1408
+                #dim2 = [(431 + 2*1 - 3)/2] + 1 = 216   
+                # output volume = 64*216 = 13824
                 nn.Conv2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
-                #dim1 = [(65 + 2*1 - 3)/1] + 1 = 64  
-                #dim2 = [(23 + 2*1 - 3)/1] + 1 = 22   
-                # output volume = 65*23 = 1408 
+                #dim1 = [(64 + 2*1 - 3)/1] + 1 = 64  
+                #dim2 = [(216 + 2*1 - 3)/1] + 1 = 216   
+                # output volume = 64*216 = 13824 
                 
                 nn.Flatten(),
                 #nn.Linear(90112, self.latent_dim)
                 )
-                #64*22*64 = 90112
+                #64*216*64 = 884736
 
-        self.final_linear = nn.Linear(90112, self.latent_dim)
+        self.final_linear = nn.Linear(64*216*64, self.latent_dim)
 
         self.decoder = nn.Sequential(
-            torch.nn.Linear(self.latent_dim, 90112),
-            Reshape(-1, 64, 64, 22),
+            torch.nn.Linear(self.latent_dim, 64*216*64),
+            Reshape(-1, 64, 64, 216),
             nn.ConvTranspose2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
             nn.LeakyReLU(0.01),
-            #dim1 = 64
-            #dim2 = 22
+            #dim1 = 1*(64-1) + 3 - 2*1 = 64
+            #dim2 = 1*(216-1) + 3 - 2*1 = 216
             nn.ConvTranspose2d(64, 64, stride=(2, 2), kernel_size=(3, 3), padding=0),                
             nn.LeakyReLU(0.01),
-            #dim1 = 127 
-            #dim2 = 43
+            #dim1 = 2*(64-1) + 3 - 2*0 = 129 
+            #dim2 = 2*(215-1) + 3 - 2*0 = 433
             nn.ConvTranspose2d(64, 32, stride=(2, 2), kernel_size=(3, 3), padding=0),                
             nn.LeakyReLU(0.01),
-            #dim1 = 255
-            #dim2 = 87
+            #dim1 = 2*(129-1) + 3 - 2*0 = 259 
+            #dim2 = 2*(433-1) + 3 - 2*0 = 867
             nn.ConvTranspose2d(32, 1, stride=(1, 1), kernel_size=(3, 3), padding=1), 
-            #dim1 = 257
-            #dim1 = 89
-            Trim(),  # 1x257x89 -> 1x256x287
+            #dim1 = 1*(259-1) + 3 - 2*1 = 259 
+            #dim2 = 1*(867-1) + 3 - 2*1 = 867
+            Trim(),  # 1x259x867 -> 1x256x862
             nn.Sigmoid()
             )
 
     def forward(self, x):
         x = self.encoder(x)
-        x = self.final_linear = nn.Linear(90112, 2)(x)
+        x = self.final_linear = nn.Linear(64*216*64, self.latent_dim)(x)
         x = self.decoder(x)
         return x
 

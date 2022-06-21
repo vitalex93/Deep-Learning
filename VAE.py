@@ -33,3 +33,6 @@ class VAE(Autoencoder):
         encoded = self.reparameterize(z_mean, z_log_var)
         decoded = self.decoder(encoded)
         return encoded, z_mean, z_log_var, decoded
+
+v = VAE()
+print(v)

@@ -94,3 +94,5 @@ class Autoencoder(nn.Module):
         latent_representations = self.encoder(images)
         reconstructed_images = self.decoder(latent_representations)
         return reconstructed_images, latent_representations
+
+

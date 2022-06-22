@@ -34,9 +34,7 @@ def train_single_epoch(model, data_loader, loss_fn, optimiser, reconstruction_te
         
         #loss = reconstruction_term_weight*pixelwise + kl_div
         loss = pixelwise + kl_div
-
-        #output = model(input)
-        #loss = loss_fn(output, input)
+        
         
 
         # backpropagate error and update weights
@@ -62,12 +60,12 @@ if __name__ == "__main__":
         device = "cpu"
     print(f"Using {device}")
 
-    #TODO REMOVE
-    '''
+    
+    
     #md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
-    #train_dataloader = create_data_loader(md, BATCH_SIZE)
-    '''
-    train_dataloader = DataLoader(dataset=md, batch_size=BATCH_SIZE)
+    train_dataloader = create_data_loader(md, BATCH_SIZE)
+    
+    #train_dataloader = DataLoader(dataset=md, batch_size=BATCH_SIZE)
 
     # construct model and assign it to device
     
@@ -81,6 +79,7 @@ if __name__ == "__main__":
 
     # train model
     train(autoencoder, train_dataloader, loss_fn, optimiser, EPOCHS, device)
+    
 
     # save model
     #torch.save(autoencoder.state_dict(), "feedforwardnet.pth")

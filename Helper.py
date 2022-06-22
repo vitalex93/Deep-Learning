@@ -2,9 +2,10 @@ from torch import nn
 import math
 from MusicSoundDataset import *
 torch.autograd.set_detect_anomaly(True)
+from torch.utils.data import DataLoader
 
 BATCH_SIZE = 8
-EPOCHS = 2
+EPOCHS = 1
 LEARNING_RATE = 0.1
 LATENT_DIM = 50
 
@@ -27,6 +28,10 @@ DIM_1 = spec.size(1)
 DIM_2 = spec.size(2)
 print(DIM_1)
 print(DIM_2)
+
+def create_data_loader(train_data, batch_size):
+    train_dataloader = DataLoader(train_data, batch_size=batch_size)
+    return train_dataloader
 
 
 class Reshape(nn.Module):

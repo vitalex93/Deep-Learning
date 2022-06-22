@@ -3,21 +3,26 @@ import torch.nn as nn
 import matplotlib.pyplot as plt
 from VAE import *
 from Spectrogram import *
+from Train_VAE import *
 import soundfile as sf
 from MusicSoundDataset import *
 from Dataloader import *
 from Helper import *
 
-FILE = 'feedforwardnet.pth'
-model = VAE()
-model.load_state_dict(torch.load(FILE))
-model.eval()
+#FILE = 'feedforwardnet.pth'
+model = VAE(latent_dim=LATENT_DIM, dim1=DIM_1, dim2=DIM_2)
+#model.load_state_dict(torch.load(FILE))
+#model.eval()
 
-
+train_dataloader = create_data_loader(md, BATCH_SIZE)
 L = []
-for input, _, _, _ in train_dataloader:    
+for input, _, _, _ in train_dataloader: 
+    print(input)   
     with torch.no_grad():
         latent = model.encoding_fn(input)
+        output = model.decoder(latent)
+        #print(output)
+    
         
         latent.squeeze_(0)
         latent.squeeze_(0)

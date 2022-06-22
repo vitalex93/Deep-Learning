@@ -16,6 +16,7 @@ model = VAE()
 model.load_state_dict(torch.load(FILE))
 model.eval()
 
+HOP_LENGTH = 256
 
 L = []
 for input, _, _, _ in train_dataloader:    
@@ -40,7 +41,7 @@ with torch.no_grad():
 
 log_spectrogram = new_image.numpy()
 log_spec = log_spectrogram[0,:,:]
-min_max = MinMaxNormaliser(0,1).denormalise(log_spec, -46, 32)
+min_max = MinMaxNormaliser(0,1).denormalise(log_spec, -49, 30)
 print(log_spec.shape)
 spec = librosa.db_to_amplitude(min_max)
 signal = librosa.istft(spec, hop_length=HOP_LENGTH)
@@ -49,9 +50,9 @@ print(signal.shape)
 
 
 save_dir = './data/sampling/'
-#sample_rate = 22050
+sample_rate = 22050
 save_path = os.path.join(save_dir + "test.wav")
-sf.write(save_path, signal, SAMPLE_RATE)
+sf.write(save_path, signal, sample_rate)
 
 
 

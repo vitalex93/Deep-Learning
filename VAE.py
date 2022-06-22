@@ -2,14 +2,16 @@ import torch
 #from torch import 
 from Autoencoder import *
 
+#hyperparameter
+latent_size= 2
 
 class VAE(Autoencoder):
 
-    def __init__(self, latent_dim, dim1, dim2):
+    def __init__(self):
 
-        super().__init__(latent_dim = latent_dim, dim1 = dim1, dim2 = dim2)
-        self.z_mean = torch.nn.Linear(216*64*64, self.latent_dim)
-        self.z_log_var = torch.nn.Linear(216*64*64, self.latent_dim)
+        super().__init__()
+        self.z_mean = torch.nn.Linear(64*216*64, self.latent_dim)
+        self.z_log_var = torch.nn.Linear(64*216*64, self.latent_dim)
 
 
 

@@ -15,19 +15,17 @@ class Reshape(nn.Module):
 
 
 class Trim(nn.Module):
-    def __init__(self, dim1, dim2):
+    def __init__(self, *args):
         super().__init__()
-        self.dim1 = dim1
-        self.dim2 = dim2
 
     def forward(self, x):
-        return x[:, :, :self.dim1, :self.dim2]
+        return x[:, :, :256, :862]
 
 
 class Autoencoder(nn.Module):
    
 
-    def __init__(self, latent_dim, dim1, dim2):
+    def __init__(self, latent_dim = 50, dim1 = 256, dim2 = 862):
         super().__init__()
 
         self.latent_dim = latent_dim 
@@ -60,11 +58,11 @@ class Autoencoder(nn.Module):
                 )
                 #64*216*64 = 884736
 
-        self.final_linear = nn.Linear(self.dim1*self.dim2*64, self.latent_dim)
+        self.final_linear = nn.Linear(64*216*64, self.latent_dim)
 
         self.decoder = nn.Sequential(
-            torch.nn.Linear(self.latent_dim, 216*64*64),
-            Reshape(-1, 64, 216, 64),
+            torch.nn.Linear(self.latent_dim, 64*216*64),
+            Reshape(-1, 64, 64, 216),
             nn.ConvTranspose2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
             nn.LeakyReLU(0.01),
             #dim1 = 1*(64-1) + 3 - 2*1 = 64
@@ -80,13 +78,13 @@ class Autoencoder(nn.Module):
             nn.ConvTranspose2d(32, 1, stride=(1, 1), kernel_size=(3, 3), padding=1), 
             #dim1 = 1*(259-1) + 3 - 2*1 = 259 
             #dim2 = 1*(867-1) + 3 - 2*1 = 867
-            Trim(dim1 = self.dim1, dim2 = self.dim2),  # 1x259x867 -> 1x256x862
+            Trim(),  # 1x259x867 -> 1x256x862
             nn.Sigmoid()
             )
 
     def forward(self, x):
         x = self.encoder(x)
-        x = self.final_linear = nn.Linear(216*64*64, self.latent_dim)(x)
+        x = self.final_linear = nn.Linear(64*216*64, self.latent_dim)(x)
         x = self.decoder(x)
         return x
 
@@ -94,5 +92,3 @@ class Autoencoder(nn.Module):
         latent_representations = self.encoder(images)
         reconstructed_images = self.decoder(latent_representations)
         return reconstructed_images, latent_representations
-
-

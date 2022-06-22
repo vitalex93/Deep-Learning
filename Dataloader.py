@@ -4,7 +4,7 @@ from VAE import VAE
 from torch import nn
 from torch.utils.data import DataLoader
 
-BATCH_SIZE = 128
+BATCH_SIZE = 8
 EPOCHS = 1
 LEARNING_RATE = 0.001
 

@@ -11,17 +11,20 @@ from Dataloader import *
 
 
 
-FILE = 'feedforwardnet.pth'
+#FILE = 'feedforwardnet.pth'
 model = VAE()
-model.load_state_dict(torch.load(FILE))
-model.eval()
+#model.load_state_dict(torch.load(FILE))
+#model.eval()
 
 HOP_LENGTH = 256
 
 L = []
-for input, _, _, _ in train_dataloader:    
+for input, _, _, _ in train_dataloader:   
+    #print(input) 
     with torch.no_grad():
         latent = model.encoding_fn(input)
+        output = model.decoder(latent)
+        print(output)
         
         latent.squeeze_(0)
         latent.squeeze_(0)

@@ -15,7 +15,7 @@ class Reshape(nn.Module):
 
 
 class Trim(nn.Module):
-    def __init__(self, dim1 = 256, dim2 = 862):
+    def __init__(self, dim1, dim2):
         super().__init__()
         self.dim1 = dim1
         self.dim2 = dim2
@@ -27,7 +27,7 @@ class Trim(nn.Module):
 class Autoencoder(nn.Module):
    
 
-    def __init__(self, latent_dim = 50, dim1 = 256, dim2 = 862):
+    def __init__(self, latent_dim, dim1, dim2):
         super().__init__()
 
         self.latent_dim = latent_dim 
@@ -63,8 +63,8 @@ class Autoencoder(nn.Module):
         self.final_linear = nn.Linear(self.dim1*self.dim2*64, self.latent_dim)
 
         self.decoder = nn.Sequential(
-            torch.nn.Linear(self.latent_dim, self.dim1*self.dim2*64),
-            Reshape(-1, 64, self.dim1, self.dim2),
+            torch.nn.Linear(self.latent_dim, 216*64*64),
+            Reshape(-1, 64, 216, 64),
             nn.ConvTranspose2d(64, 64, stride=(1, 1), kernel_size=(3, 3), padding=1),
             nn.LeakyReLU(0.01),
             #dim1 = 1*(64-1) + 3 - 2*1 = 64
@@ -86,7 +86,7 @@ class Autoencoder(nn.Module):
 
     def forward(self, x):
         x = self.encoder(x)
-        x = self.final_linear = nn.Linear(self.dim1*self.dim2*64, self.latent_dim)(x)
+        x = self.final_linear = nn.Linear(216*64*64, self.latent_dim)(x)
         x = self.decoder(x)
         return x
 

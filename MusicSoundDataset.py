@@ -1,13 +1,14 @@
 import os
-from sklearn.cluster import spectral_clustering
-
 import torch
 from torch.utils.data import Dataset
 import pandas as pd
 import torchaudio
-import librosa
 import numpy as np
 from Spectrogram import LogSpectrogramExtractor, MinMaxNormaliser
+
+#TODO REMOVE unused imports
+import librosa
+from sklearn.cluster import spectral_clustering
 
 
 class MusicSoundDataset(Dataset):
@@ -20,7 +21,6 @@ class MusicSoundDataset(Dataset):
         self.hop_length = hop_length
         self.target_sample_rate = target_sample_rate
         self.num_samples = num_samples
-    
 
 
     def __len__(self):
@@ -28,7 +28,8 @@ class MusicSoundDataset(Dataset):
 
     def __getitem__(self, index):
         audio_sample_path = self._get_audio_sample_path(index)
-        label = self._get_audio_sample_label(index)
+        #TODO REMOVE label
+        #label = self._get_audio_sample_label(index)
         label = torch.tensor([1])
         signal, sr = torchaudio.load(audio_sample_path)
         signal = self._resample_if_necessary(signal, sr)

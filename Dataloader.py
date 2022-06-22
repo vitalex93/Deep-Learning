@@ -1,7 +1,9 @@
-from Dataset import *
+from MusicSoundDataset import *
 from torch import nn
 from torch.utils.data import DataLoader
 
+#TODO REMOVE class
+'''
 BATCH_SIZE = 8
 EPOCHS = 1
 LEARNING_RATE = 0.1
@@ -29,7 +31,7 @@ def create_data_loader(train_data, batch_size):
     train_dataloader = DataLoader(train_data, batch_size=batch_size)
     return train_dataloader
 
-
+'''
 
 
 

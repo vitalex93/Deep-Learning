@@ -1,5 +1,5 @@
-
-from Dataset import *
+from Helper import *
+from MusicSoundDataset import *
 from Autoencoder import Autoencoder
 from VAE import VAE
 from torch import nn
@@ -11,13 +11,11 @@ import torch.nn.functional as F
 
 
 def train_single_epoch(model, data_loader, loss_fn, optimiser, reconstruction_term_weight = 1, device = 'cpu'):
-    for input, _ , _, _ in data_loader:
+    for input, _, _, _ in data_loader:
         input = input.to(device)
 
-
-
         encoded, z_mean, z_log_var, decoded = model(input)
-        
+        print(model.final_linear.weight.grad)
         # calculate loss
         # total loss = reconstruction loss + KL divergence
         #kl_divergence = (0.5 * (z_mean**2 + 
@@ -64,15 +62,16 @@ if __name__ == "__main__":
         device = "cpu"
     print(f"Using {device}")
 
-   
-    md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
-    train_dataloader = create_data_loader(md, BATCH_SIZE)
-    
-    
+    #TODO REMOVE
+    '''
+    #md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
+    #train_dataloader = create_data_loader(md, BATCH_SIZE)
+    '''
+    train_dataloader = DataLoader(dataset=md, batch_size=BATCH_SIZE)
 
     # construct model and assign it to device
     
-    autoencoder = VAE(latent_dim = LATENT_DIM, dim1 = DIM_1, dim2 = DIM_2).to(device)
+    autoencoder = VAE(latent_dim=LATENT_DIM, dim1=DIM_1, dim2=DIM_2).to(device)
     print(autoencoder)
 
     # initialise loss funtion + optimiser

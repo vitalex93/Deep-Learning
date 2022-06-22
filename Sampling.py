@@ -1,15 +1,12 @@
-
-
 import torch
 import torch.nn as nn
 import matplotlib.pyplot as plt
 from VAE import *
 from Spectrogram import *
 import soundfile as sf
-from Dataset import *
+from MusicSoundDataset import *
 from Dataloader import *
-
-
+from Helper import *
 
 FILE = 'feedforwardnet.pth'
 model = VAE()

@@ -6,7 +6,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
-BATCH_SIZE = 8
+BATCH_SIZE = 1
 EPOCHS = 1
 LEARNING_RATE = 0.001
 

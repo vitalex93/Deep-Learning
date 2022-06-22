@@ -81,8 +81,8 @@ class MusicSoundDataset(Dataset):
 
 
 
-
-
+#TODO REMOVE
+'''
 if __name__ == "__main__":
     ANNOTATIONS_FILE = "./data/features_30_sec.csv"
     AUDIO_DIR = "./data/genres_original/"
@@ -119,6 +119,6 @@ if __name__ == "__main__":
     print(max_mean, min_mean)
     print(median_max, median_min)
  
-
+'''
 
 

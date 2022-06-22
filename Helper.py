@@ -1,6 +1,7 @@
 from torch import nn
 import math
 from MusicSoundDataset import *
+torch.autograd.set_detect_anomaly(True)
 
 BATCH_SIZE = 8
 EPOCHS = 2

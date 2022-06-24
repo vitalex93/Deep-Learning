@@ -10,18 +10,18 @@ def process_sudio(file_name):
     for i, chunk in enumerate(chunks):
         file_name = Path(os.path.basename(each_file)).stem
         if i != 15:
-            chunk_name = './data/chunked_blues/' + file_name + "_{0}.wav".format(i)
+            chunk_name = './data/chunked_data/' + file_name + "_{0}.wav".format(i)
             print("exporting", chunk_name)
             chunk.export(chunk_name, format="wav")
 
-all_file_names = [] #os.listdir('./data/genres_original/blues/')
+all_file_names = [] #os.listdir('./data/genres_original/chunked_data/')
 for file in os.listdir("./data/genres_original/blues/"):
     if file.endswith(".wav"):
         all_file_names.append(os.path.join("./data/genres_original/blues/", file))
 
 
 try:
-    os.makedirs('./data/chunked_blues') # creating a folder named chunked
+    os.makedirs('data/chunked_data') # creating a folder named chunked
 except:
     pass
 

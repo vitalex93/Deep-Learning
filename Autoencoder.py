@@ -25,7 +25,7 @@ class Trim(nn.Module):
 class Autoencoder(nn.Module):
    
 
-    def __init__(self, latent_dim = 50, dim1 = 256, dim2 = 173):
+    def __init__(self, latent_dim = 200, dim1 = 256, dim2 = 173):
         super().__init__()
 
         self.latent_dim = latent_dim 

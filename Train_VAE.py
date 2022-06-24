@@ -8,12 +8,12 @@ from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
 
-BATCH_SIZE = 1
-EPOCHS = 1
+BATCH_SIZE = 32
+EPOCHS = 5
 LEARNING_RATE = 0.001
 
-ANNOTATIONS_FILE = "./data/features_30_sec.csv"
-AUDIO_DIR = "./data/genres_original/"
+ANNOTATIONS_FILE = "./data/features_2_sec.csv"
+AUDIO_DIR = "data/chunked_data/"
 SAMPLE_RATE = 22050
 FRAME_SIZE = 512
 HOP_LENGTH = 256

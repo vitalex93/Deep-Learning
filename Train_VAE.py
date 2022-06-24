@@ -9,8 +9,8 @@ import torch.nn.functional as F
 
 
 BATCH_SIZE = 32
-EPOCHS = 5
-LEARNING_RATE = 0.001
+EPOCHS = 10
+LEARNING_RATE = 0.0001
 
 ANNOTATIONS_FILE = "./data/features_2_sec.csv"
 AUDIO_DIR = "data/chunked_data/"
@@ -101,5 +101,5 @@ if __name__ == "__main__":
     train(autoencoder, train_dataloader, loss_fn, optimiser, EPOCHS, device)
 
     # save model
-    #torch.save(autoencoder.state_dict(), "feedforwardnet.pth")
+    torch.save(autoencoder.state_dict(), "feedforwardnet.pth")
     #print("Trained autoencoder saved at feedforwardnet.pth")

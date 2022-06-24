@@ -41,7 +41,7 @@ with torch.no_grad():
 
 log_spectrogram = new_image.numpy()
 log_spec = log_spectrogram[0,:,:]
-min_max = MinMaxNormaliser(0,1).denormalise(log_spec, -49, 30)
+min_max = MinMaxNormaliser(0,1).denormalise(log_spec, -47, 32)
 print(log_spec.shape)
 spec = librosa.db_to_amplitude(min_max)
 signal = librosa.istft(spec, hop_length=HOP_LENGTH)
@@ -59,7 +59,7 @@ sf.write(save_path, signal, sample_rate)
 
     #plt.imshow(latent.to('cpu').numpy(), cmap='binary')
     #plt.show()
-
+'''
 
 class Sampler:
     
@@ -92,7 +92,7 @@ class Sampler:
         model = Sampler(self).load_model()
         signal = 
 
-
+'''
             
 
         

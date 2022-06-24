@@ -1,10 +1,12 @@
 
+
 from Dataset import *
 from Autoencoder import Autoencoder
 from VAE import VAE
 from torch import nn
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
+
 
 BATCH_SIZE = 1
 EPOCHS = 1
@@ -15,7 +17,7 @@ AUDIO_DIR = "./data/genres_original/"
 SAMPLE_RATE = 22050
 FRAME_SIZE = 512
 HOP_LENGTH = 256
-NUM_SAMPLES = 220500
+NUM_SAMPLES = 44100
 INPUT_SHAPE = 256
 
 def create_data_loader(train_data, batch_size):
@@ -90,8 +92,9 @@ if __name__ == "__main__":
     print(autoencoder)
 
     # initialise loss funtion + optimiser
+    
     loss_fn = F.mse_loss
-    optimiser = torch.optim.Adam(autoencoder.parameters()
+    optimiser = torch.optim.Adam(autoencoder.parameters(),
                                  lr=LEARNING_RATE)
 
     # train model

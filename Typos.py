@@ -57,4 +57,6 @@ def typos3(DIM_1, DIM_2):
 
     return dim2
 
-    print(typos())
+print(typos(DIM_1=256,DIM_2=173))
+print(typos2(256,173))
+print(typos3(256,173))

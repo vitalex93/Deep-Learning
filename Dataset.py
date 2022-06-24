@@ -95,7 +95,7 @@ if __name__ == "__main__":
 
     md = MusicSoundDataset(ANNOTATIONS_FILE, AUDIO_DIR, FRAME_SIZE, HOP_LENGTH, SAMPLE_RATE, NUM_SAMPLES)
     print(f"There are {len(md)} samples in the dataset.")
-    spec, label, max, min = md[800]
+    spec, label, max, min = md[0]
     #print(spec.size())
     #print(md[0])
 

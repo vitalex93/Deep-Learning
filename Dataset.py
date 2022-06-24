@@ -89,7 +89,7 @@ if __name__ == "__main__":
     SAMPLE_RATE = 22050
     FRAME_SIZE = 512
     HOP_LENGTH = 256
-    NUM_SAMPLES = 220500
+    NUM_SAMPLES = 44100
 
 
 

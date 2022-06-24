@@ -6,7 +6,7 @@ from torch import nn
 from torch.utils.data import DataLoader
 import torch.nn.functional as F
 
-BATCH_SIZE = 8
+BATCH_SIZE = 1
 EPOCHS = 1
 LEARNING_RATE = 0.001
 
@@ -91,7 +91,7 @@ if __name__ == "__main__":
 
     # initialise loss funtion + optimiser
     loss_fn = F.mse_loss
-    optimiser = torch.optim.Adam(autoencoder.parameters(),
+    optimiser = torch.optim.Adam(autoencoder.parameters()
                                  lr=LEARNING_RATE)
 
     # train model
